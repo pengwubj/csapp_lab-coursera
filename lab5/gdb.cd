@@ -1,0 +1,20 @@
+display  *(size_t *)(0x7ffff6612010) = 72340172838076673
+display  blockSize = 2048
+display  blockInfo = (BlockInfo *) 0x7ffff6611818
+display  followingBlock = (BlockInfo *) 0x7fffffffd778
+display *(size_t*)(0x7ffff6612038) = 1
+display *(size_t*)(0x7ffff6612018) = 2050
+display *(size_t*)(0x7ffff6611818) = 2050
+display (BlockInfo*)(0x7ffff661181)->sizeAndTags = <error: Attempt to extract a component of a value that is not a structure pointer.>
+display *(size_t*)(0x7ffff6612018) = 2050
+display *(size_t *)(mem_brk-8) = 1
+display *(size_t *)(mem_start_brk) = 140737326948376
+display mem_brk = 0x7ffff6612040 ""
+display mem_start_brk = 0x7ffff6611010 "\030 a\366\377\177"
+b coalesceFreeBlock 
+b mm_free 
+b mm_malloc 
+b 445
+display *(size_t*)(0x7ffff6612018)
+watch *(size_t*)(0x7ffff6612018)
+run -f ./traces/short1-bal.rep
