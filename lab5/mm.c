@@ -335,7 +335,7 @@ void* mm_malloc (size_t size) {
 
   FPRINTF(stderr,"MALLOC_BEGIN\n");
   FPRINTF(stderr,"==========================================\n");
-      examine_heap();
+     // examine_heap();
   // Zero-size requests get NULL.
   if (size == 0) {
     return NULL;
@@ -366,7 +366,7 @@ void* mm_malloc (size_t size) {
 	  FPRINTF(stderr,"START_alloc\n");
       FPRINTF(stderr,"ptrFreeBlock is %lx tag is %lx  \n",ptrFreeBlock,ptrFreeBlock->sizeAndTags);
       blockSize = SIZE(ptrFreeBlock->sizeAndTags);
-      examine_heap();
+      //examine_heap();
       FPRINTF(stderr,"blocksize is %ld reqsize is %ld\n",blockSize,reqSize);
 
 	  if(blockSize == reqSize ){
@@ -398,11 +398,11 @@ void* mm_malloc (size_t size) {
 	   *((size_t *)(POINTER_ADD(ptrRemain,blockSize))) = ptrRemain->sizeAndTags;
        FPRINTF(stderr,"ptrRemain is %lx tag is %lx  \n",ptrRemain,ptrRemain->sizeAndTags);
 	   removeFreeBlock(ptrFreeBlock);
-       examine_heap();
+      // examine_heap();
 	   insertFreeBlock(ptrRemain);
-       examine_heap();
+      // examine_heap();
 	   coalesceFreeBlock(ptrRemain);
-       examine_heap();
+       //examine_heap();
 	    FPRINTF(stderr,"return 2\n");
 	    FPRINTF(stderr,"==========================================\n");
 	   return   ( POINTER_ADD(ptrFreeBlock,WORD_SIZE)) ;
@@ -423,7 +423,7 @@ void* mm_malloc (size_t size) {
 		*((size_t* )(POINTER_ADD(ptrFreeBlock,blockSize-WORD_SIZE))) =(blockSize-reqSize)| TAG_PRECEDING_USED| TAG_USED ;
 		*((size_t* )(POINTER_ADD(ptrFreeBlock,reqSize))) = (blockSize-reqSize) |TAG_PRECEDING_USED| TAG_USED ;
 		removeFreeBlock(ptrFreeBlock);
-        examine_heap();
+       // examine_heap();
 	    FPRINTF(stderr,"return 3\n");
 		FPRINTF(stderr,"==========================================\n");
 	    return (void *)( POINTER_ADD(ptrFreeBlock,WORD_SIZE)) ;
@@ -491,11 +491,11 @@ void mm_free (void *ptr) {
   followingBlock->sizeAndTags = (followingBlock->sizeAndTags) & (~TAG_PRECEDING_USED);
   *(size_t *) POINTER_ADD (followingBlock, SIZE(followingBlock->sizeAndTags) - WORD_SIZE) = followingBlock->sizeAndTags;
 
-  examine_heap();
+ // examine_heap();
   insertFreeBlock(blockInfo);
-  examine_heap();
+ // examine_heap();
   coalesceFreeBlock(blockInfo);
-  examine_heap();
+  //examine_heap();
 }
 
 /* Print the heap by iterating through it as an implicit free list. */
